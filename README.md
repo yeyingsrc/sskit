@@ -89,12 +89,9 @@
   重启：重启系统。<br/>
   卸载：卸载系统数据，系统将完全移除所有运行数据，卸载操作不可逆，操作前请确保重要数据已备份。<br/>
   查看日志：点击右下角查看日志，日志区域会显示启动过程信息。<br/>
-
-![图片](assets/12.png)
-
   第三步：访问系统。打开浏览器输入：https://127.0.0.1:57701/kit/index.html，默认账号：admin/Admin@1290。
 
-![图片](assets/13.png)
+![图片](assets/12.png)
 
 ## 功能预览
 
@@ -191,11 +188,12 @@
 ## 致谢
 
 特别感谢以下项目的作者，你们的无私分享为软件开发提供了坚实基础。
-https://github.com/dromara/orion-visor
-https://github.com/EdgeSecurityTeam/EHole
-https://github.com/maurosoria/dirsearch
-https://github.com/nmap/nmap
-https://github.com/shmilylty/OneForAll
+
+https://github.com/dromara/orion-visor<br/>
+https://github.com/EdgeSecurityTeam/EHole<br/>
+https://github.com/maurosoria/dirsearch<br/>
+https://github.com/nmap/nmap<br/>
+https://github.com/shmilylty/OneForAll<br/>
 
 ## 用户义务
 
