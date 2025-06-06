@@ -6,6 +6,10 @@
     <source src="assets/0.mp4" type="video/mp4">
 </video>
 
+[![视频描述](https://i2.hdslb.com/bfs/archive/af829d11ce7fbdd6992c9b1a593d82f49aa6aff9.jpg)](https://www.bilibili.com/video/BV1rzTTzsEB3/)
+
+功能预览视频：https://www.bilibili.com/video/BV1rzTTzsEB3/
+
 ## 主要功能
 
 ### 1. 资产管理
