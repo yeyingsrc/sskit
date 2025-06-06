@@ -1,7 +1,9 @@
 ## 简介
 
 &nbsp;&nbsp;安全运维工具箱是一款面向安全运维场景的集成化利器，融合了资产管理、资产测绘、漏洞检测、配置核查、弱口令检测、批量化运维、漏洞跟踪、报告生成以及日志审计等核心功能模块。实现安全运维服务标准化、自动化，助力用户构建高效、精准、可复用的安全运维体系。
-<iframe src="//player.bilibili.com/player.html?bvid=BV1rzTTzsEB3&page=1" width="800" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+<video controls="controls" loop="loop" autoplay="autoplay"> 
+    <source src="assets/0.mp4" type="video/mp4">
+</video>
 
 ## 主要功能
 
