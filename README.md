@@ -78,7 +78,7 @@
 - 环境要求
   Windows 7/10/Server 2012+
   Npcap 1.80+（主机和应用资产测绘依赖，请在使用资产测绘功能前先安装npcap）
-- 系统使用了MySQL 8，需要确保安装了Microsoft Visual C++ 2019 Redistributable Package以以上版本
+- 系统使用了MySQL 8，需要确保安装了Microsoft Visual C++ 2019 Redistributable Package以上版本
 - 程序包目录结构
   bin：启动程序所在目录
   data：系统初始化后数据库文件存放目录
