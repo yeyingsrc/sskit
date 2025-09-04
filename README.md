@@ -71,7 +71,7 @@
 &nbsp;&nbsp;记录用户操作日志，提供审计功能，是保障系统安全与合规性的重要举措。通过详细记录用户的每一次操作行为，包括操作时间、操作类型、操作对象以及操作结果等关键信息，系统管理员能够全面掌握用户的活动轨迹。这些日志数据不仅有助于在出现问题时快速定位故障源头，还能为安全事件的调查提供有力证据。例如，当系统出现异常数据修改时，管理员可以回溯日志，找出具体是哪个用户在何时进行了相关操作，从而判断是误操作还是恶意行为。同时，审计功能也能对用户行为起到一定的约束作用。用户知晓自己的操作会被记录，就会更加谨慎地操作系统，减少违规操作的可能性。此外，定期对操作日志进行分析，还能发现系统使用过程中的潜在风险和优化点，进一步提升系统的安全性和稳定性。
 ![图片](assets/11.png)
 
-## 安装使用
+## Windows版本安装使用
 
 &nbsp;&nbsp;安全运维工具箱开箱即用，系统运行依赖环境已全部集成在程序包内，并提供桌面可视化管理界面。
 
@@ -98,9 +98,105 @@
   重启：重启系统。<br/>
   卸载：卸载系统数据，系统将完全移除所有运行数据，卸载操作不可逆，操作前请确保重要数据已备份。<br/>
   查看日志：点击右下角查看日志，日志区域会显示启动过程信息。<br/>
-  第三步：访问系统。打开浏览器输入：https://127.0.0.1:57701/kit/index.html，默认账号：admin/Admin@1290。
+  第三步：访问系统。打开浏览器输入：https://127.0.0.1:57701/kit/index.html，默认账号：admin/Admin@1290
 
 ![图片](assets/12.png)
+
+## Linux版本安装使用
+### 准备Linux操作系统
+操作系统：Ubuntu 22.04.5 LTS 服务器版
+### 安装系统依赖组件
+#### 1.安装nmap
+```
+sudo apt install nmap
+```
+#### 2.安装hydra
+```
+sudo apt install hydra
+```
+#### 3.安装python3和依赖
+检查是否已安装python3，推荐3.8.10及以上版本，Ubuntu 22.04.5 LTS操作系统默认已安装。在系统安装文件目录下找到requirements.txt文件，使用以下命令安装依赖。
+```
+sudo pip3 install -r requirements.txt
+```
+#### 4.安装mysql 8以上版本
+https://dev.mysql.com/downloads/mysql/
+#### 5.安装redis
+https://redis.io/downloads/
+#### 6.安装nginx
+https://nginx.org/
+
+### 初始化数据
+创建用户和数据库，在安装目录下找到resources\sql\sskit_kit.sql文件导入mysql数据库中
+### 修改配置文件
+#### 1.修改系统配置文件
+修改etc/application.yaml，按照实际情况调整mysql、redis、hydra、nmap参数值。
+```
+server:
+  sskit-port: 57702 #api端口号
+db:
+  url: jdbc:mysql://127.0.0.1:57709/sskit_kit?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
+  username: 数据库用户名
+  password: 数据库密码
+redis-config:
+    host: 127.0.0.1
+    port: 56379
+    password: redis密码
+tool:
+  python: /usr/bin/python3
+  hydra: /usr/bin/hydra
+  nmap: /usr/bin/nmap
+```
+#### 2.修改nginx配置
+根据nginx配置文件所在目录，按下面模板进行调整。
+
+```
+server {
+    listen       57701 ssl;
+    server_name  localhost;
+    ssl_certificate  ../../../resources/certificate/sskit.crt;
+    ssl_certificate_key ../../../resources/certificate/sskit.key;
+    error_page 497 https://$host:57701/kit/index.html;
+    access_log  ../../logs/sskit.access.log  main;
+    location ^~ /kit/ {
+        alias ../../resources/ui/kit/;#前端程序
+        index index.html;
+    }
+    location ^~ /sskit/api {
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_pass http://127.0.0.1:57702/sskit/api;#后端接口，此处端口需要与etc/application.yaml文件中server.sskit-port保持一致
+    }
+    location ^~ /sskit/keep-alive {
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+      proxy_pass http://127.0.0.1:57702/sskit/keep-alive;#后端接口，此处端口需要与etc/application.yaml文件中server.sskit-port保持一致
+    }
+}
+```
+### 启动系统
+在bin目录中，以管理员权限运行启动脚本startup.sh
+```
+sudo ./startup.sh
+```
+可查看logs/sskit/app.log日志文件，跟踪启动状态
+```
+2025-09-04 10:56:25.756 -  INFO [] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 57702 (http) with context path ''
+.....
+2025-09-04 10:56:25.820 -  INFO [] [main] c.y.sskit.launch.LaunchApplication       : Started LaunchApplication in 17.954 seconds (JVM running for 18.692)
+```
+### 访问系统
+打开浏览器输入：https://localhost:57701/kit/index.html
+输入账号和密码登录系统，默认账号：admin/Admin@1290
 
 ## 功能预览
 
