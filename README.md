@@ -1,5 +1,5 @@
-欢迎小伙伴们下载使用！！！使用过程中如遇到问题可提交issues，后续将不定期更新程序，开放更多功能和完善操作文档。
-本次更新已增加Linux版本，下载地址：https://github.com/nbyiansec/sskit/releases
+安全运维工具箱v1.0.2版本已发布,欢迎小伙伴们下载使用！！！使用过程中如遇到问题可提交issues，后续将不定期更新程序，开放更多功能和完善操作文档。
+下载地址：https://github.com/nbyiansec/sskit/releases
 
 ## 简介
 
