@@ -103,6 +103,66 @@
 
 ![图片](assets/12.png)
 
+## Docker 部署
+
+&nbsp;&nbsp;通过 Docker 可快速部署 SSKit，无需手动安装 MySQL、Redis、Nginx 等依赖，应用已内置在镜像中。
+
+### 环境要求
+
+- Docker Engine 20.10+
+- Docker Compose 2.0+
+- 内存 4GB+，磁盘 20GB+
+
+### 部署步骤
+
+**第一步：获取部署文件**
+
+```bash
+git clone https://github.com/nbyiansec/sskit.git
+cd sskit/docker
+```
+
+**第二步：配置环境变量**
+
+```bash
+cp .env.example .env
+vi .env
+```
+
+修改 `.env` 中的数据库密码等配置，生产环境请务必修改默认密码。
+
+**第三步：拉取镜像并启动**
+
+```bash
+docker compose up -d
+```
+
+**第四步：访问系统**
+
+- 地址：https://localhost:57701/kit/index.html
+- 默认账号：admin / Admin@1290
+
+> 首次访问浏览器会提示证书不受信任（自签名证书），点击继续访问即可。首次登录后请修改默认密码。
+
+### 使用外部数据库
+
+如果已有 MySQL 和 Redis 服务，修改 `.env` 中 `MYSQL_HOST` 和 `REDIS_HOST` 为外部地址，然后使用简化版部署：
+
+```bash
+docker compose -f docker-compose.simple.yml up -d
+```
+
+外部数据库要求：MySQL 8.0+（需开启 `lower_case_table_names=1`）、Redis 6.0+。
+
+### 常用命令
+
+```bash
+docker compose ps            # 查看状态
+docker compose logs -f app   # 查看日志
+docker compose down          # 停止服务
+docker compose down -v       # 停止并清除数据（慎用）
+```
+
 ## Linux版本安装使用
 ### 准备Linux操作系统
 操作系统：Ubuntu 22.04.5 LTS 服务器版
